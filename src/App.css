@@ -1,42 +1,116 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  /* max-width: 1280px; */
+  max-width: 550px;
+  height: auto;
+  margin: 2em auto;
   padding: 2rem;
+  background-color: #282726;
   text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px 0 black;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Header - title & description */
+main .header {
+  width: 400px;
+  margin: 0 auto;
+  height: 175px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+main .title {
+  font-size: 1.4rem;
 }
 
-.card {
-  padding: 2em;
+main .description {
+  font-size: 0.95rem;
+  color: #8E8E8E;
 }
 
-.read-the-docs {
-  color: #888;
+/* Header - Popup message */
+.header .popup-message-container {
+  margin-top: 1.125em;
+  background-color: #10A95B;
+  border-radius: 6px;
+  padding-block: 0.25em;
+}
+
+.popup-message-container h2 {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+/* Languages container */
+.languages-container {
+  width: 370px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.2em;
+}
+
+.languages-container span {
+  padding: 5px 8px;
+  background-color: orange;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.word-container {
+  height: 40px;
+}
+
+/* Word Section */
+.word-container .char {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+  background-color: #323232;
+  color: #F9F4DA;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #F9F4DA;
+  font-weight: bold;
+}
+
+.word-container .char:not(:last-of-type) {
+  margin-right: 0.2em;
+}
+
+/* Keyboard */
+.keyboard {
+  width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.175em;
+}
+
+.keyboard button {
+  width: 50px;
+  height: 50px;
+  background-color: #FCBA29;
+  color: #1E1E1E;
+}
+
+.keyboard button:hover {
+  background-color: #1A1A1A;
+  color: #fff;
+}
+
+/* New game button */
+.new-game-button {
+  background-color: #11B5E5;
+  color: #1A1A1A;
+  width: 230px;
+  white-space: nowrap;
+  height: 45px;
+  font-weight: 600;
 }
