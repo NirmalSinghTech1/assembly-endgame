@@ -2,17 +2,24 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import './App.css'
 import languages from './Js/languages'
+import getFarewellMessage from './Js/utils'
+import { getRandomWord } from './Js/utils'
+
+// Static Variables 
+const alphabets =  ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
 function App() {
     // State Variables
-    const [currentWord, setCurrentWord] = useState('react')
+    const [currentWord, setCurrentWord] = useState(() => getRandomWord())
     const [guessedLetters, setGuessedLetters] = useState([])
 
     // Derived Variables
     const wrongGuessCount = guessedLetters.filter(letter => !currentWord.split('').includes(letter)).length
-    console.log(wrongGuessCount)
-    // Static Variables 
-    const alphabets =  ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    const isGameWon = currentWord.split('').every(letter => guessedLetters.includes(letter))
+    const isGameLost = wrongGuessCount === languages.length - 1
+    const isGameOver = isGameWon || isGameLost
+    const isGuessWrong = guessedLetters.length > 0 && !currentWord.split('').includes(guessedLetters[guessedLetters.length - 1])
+    
 
     // Get currently selected letter from keyboard
     function handleGuessedLetter(letter) {
@@ -21,7 +28,39 @@ function App() {
             [...prevLetters, letter.toLowerCase()]
         )
     }
-    console.log(guessedLetters)
+
+    // Start New Game
+    function startNewGame() {
+        setCurrentWord(getRandomWord())        
+        setGuessedLetters([])
+    }
+
+    function farwellMessages() {
+        if(!isGameOver) {
+            return (
+                <div>
+                    <p>{wrongGuessCount > 0 ? getFarewellMessage(languages[wrongGuessCount - 1].language) : null}</p>
+                </div>
+            )
+        }
+
+        if(isGameWon) {
+            return (
+                <div className='won'>
+                    <p>You Won!</p>
+                    <p>Well done! 🎉</p>
+                </div>
+            )
+        } 
+
+        if(isGameLost) {
+            return (
+            <div className='lost'>
+                <p>Game Over!</p>
+                <p>You lose! Better start learning Assembly 😭</p>
+            </div>
+        )}
+    }
 
     // Language Elements
     const languageElements = languages.map( (item, index) => {
@@ -47,8 +86,8 @@ function App() {
     // Word Elements
     const wordElements = currentWord.split('').map((letter, index) => {
         return (
-            <span key={index}>
-                {guessedLetters.includes(letter.toLowerCase()) 
+            <span key={index} style={{color: isGameLost && !guessedLetters.includes(letter) ? "#EC5D49" : null}}>
+                {guessedLetters.includes(letter.toLowerCase()) || isGameLost
                 ? letter.toUpperCase() 
                 : ""}
             </span>
@@ -82,9 +121,7 @@ function App() {
 
             {/* Farewell message to indicate if the guess is wrong */}
             <section className="farewell-message">
-                <div>
-                    <p>Farewell HTML and CSS!</p>
-                </div>
+                {isGuessWrong || isGameOver ? farwellMessages() : null}
             </section>
 
             {/* Languages Section*/}
@@ -98,13 +135,18 @@ function App() {
             </section>
 
             {/* Keyboard Section */}
-            <section className={clsx('keyboard', {
+            <section 
+                className={clsx('keyboard', {
                 disable: wrongGuessCount === languages.length - 1
-            })}>
+            })}
+            >
                 {keyboard}
             </section>
 
-            <button className='new-game-btn'>New Game</button>
+            {/* New Game Button */}
+            <section className='new-game'>
+                {isGameOver ? <button onClick={startNewGame} className='new-game-btn'>New Game</button> : null}
+            </section>
         </main>
     )
 }
