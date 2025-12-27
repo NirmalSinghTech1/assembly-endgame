@@ -1,44 +1,77 @@
-// import { useState } from 'react'
+import { useState } from 'react'
 import './App.css'
-import alphabets from './Js/alphabets'
+import languages from './Js/languages'
 
 function App() {
-  const word = 'refactor'.split('').map( (char, index) => {
-    return <span key={index} className='char'>{char.toUpperCase()}</span>
-  })
+    // State Variables
+    const [currentWord, setCurrentWord] = useState('react')
 
-  return (
-    <main>
-      <div className='header'>
-        <h1 className='title'>Assembly: Endgame</h1>
-        <p className='description'>Guess the word in under 8 attempts to keep the programming world safe from Assembly!</p>
-        <div className='popup-message-container'>
-          <h2>You Win!</h2>
-          <p>Well done!🎉</p>
-        </div>
-      </div>
-      <div className='languages-container'>
-        <span style={{backgroundColor: "#E2680F"}}>HTML</span>
-        <span style={{backgroundColor: "#328AF1"}}>CSS</span>
-        <span style={{backgroundColor: "#F4EB13", color: "#1E1E1E"}}>JavaScript</span>
-        <span style={{backgroundColor: "#2ED3E9", color: "#1E1E1E"}}>React</span>
-        <span style={{backgroundColor: "#298EC6"}}>TypeScript</span>
-        <span style={{backgroundColor: "#599137"}}>Node.js</span>
-        <span style={{backgroundColor: "#FFD742", color: "#1E1E1E"}}>Python</span>
-        <span style={{backgroundColor: "#D02B2B"}}>Ruby</span>
-        <span style={{backgroundColor: "#2D519F"}}>Assembly</span>
-      </div>
-      <div className='word-container'>
-       {word}
-      </div>
-      <div className='keyboard'>
-        {alphabets.map( item => {
-          return <button key={item}>{item}</button>
-        })}
-      </div>
-      <button className='new-game-button'>New Game</button>
-    </main>
-  )
+    // Static Variables 
+    const alphabets =  ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+
+    // Language Elements
+    const languageElements = languages.map( (item, index) => {
+        const styles = {
+            backgroundColor: item.bgColor,
+            color: item.color
+        }
+        return (
+            <span 
+                key={index}
+                style={styles}
+                className='chip'
+            >{item.language}
+            </span>
+        )}
+    )
+
+    // Word Elements
+    const wordElements = currentWord.split('').map((letter, index) => {
+        return (
+            <span key={index}>{letter.toUpperCase()}</span>
+        )
+    })
+
+    // Keyboard buttons
+    const keyboard = alphabets.map( letter => {
+        return (
+            <button key={letter}>{letter}</button>
+        )
+    })
+
+    return (
+        <main>
+            {/* Header Section */}
+            <section className="header">
+                <h1>Assembly Endgame</h1>
+                <p>Guess the word in under 8 attempts to keep the programming world safe from Assembly!</p>
+            </section>
+
+            {/* Farewell message to indicate if the guess is wrong */}
+            <section className="farewell-message">
+                <div>
+                    <p>Farewell HTML and CSS!</p>
+                </div>
+            </section>
+
+            {/* Languages Section*/}
+            <section className="language-chips">
+                {languageElements}
+            </section>
+
+            {/* Guess Word Section */}
+            <section className="word">
+                {wordElements}
+            </section>
+
+            {/* Keyboard Section */}
+            <section className="keyboard">
+                {keyboard}
+            </section>
+
+            <button className='new-game-btn'>New Game</button>
+        </main>
+    )
 }
 
 export default App
