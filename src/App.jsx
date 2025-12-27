@@ -1,13 +1,27 @@
 import { useState } from 'react'
+import clsx from 'clsx'
 import './App.css'
 import languages from './Js/languages'
 
 function App() {
     // State Variables
     const [currentWord, setCurrentWord] = useState('react')
+    const [guessedLetters, setGuessedLetters] = useState([])
 
+    // Derived Variables
+    const wrongGuessCount = guessedLetters.filter(letter => !currentWord.split('').includes(letter)).length
+    console.log(wrongGuessCount)
     // Static Variables 
-    const alphabets =  ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    const alphabets =  ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+
+    // Get currently selected letter from keyboard
+    function handleGuessedLetter(letter) {
+        setGuessedLetters(prevLetters => 
+            prevLetters.includes(letter) ? [...prevLetters] :
+            [...prevLetters, letter.toLowerCase()]
+        )
+    }
+    console.log(guessedLetters)
 
     // Language Elements
     const languageElements = languages.map( (item, index) => {
@@ -15,11 +29,16 @@ function App() {
             backgroundColor: item.bgColor,
             color: item.color
         }
+
+        const className = clsx('chip', {
+            wrong: index < wrongGuessCount
+        })
+
         return (
             <span 
                 key={index}
                 style={styles}
-                className='chip'
+                className={className}
             >{item.language}
             </span>
         )}
@@ -28,14 +47,28 @@ function App() {
     // Word Elements
     const wordElements = currentWord.split('').map((letter, index) => {
         return (
-            <span key={index}>{letter.toUpperCase()}</span>
+            <span key={index}>
+                {guessedLetters.includes(letter.toLowerCase()) 
+                ? letter.toUpperCase() 
+                : ""}
+            </span>
         )
     })
 
     // Keyboard buttons
     const keyboard = alphabets.map( letter => {
+        const className = clsx({
+            correct: guessedLetters.includes(letter) && currentWord.split('').includes(letter),
+            incorrect: guessedLetters.includes(letter) && !currentWord.includes(letter)
+        })
+
         return (
-            <button key={letter}>{letter}</button>
+            <button 
+                onClick={() => handleGuessedLetter(letter)} 
+                key={letter}
+                className={className}
+            >{letter.toUpperCase()}
+            </button>
         )
     })
 
@@ -65,7 +98,9 @@ function App() {
             </section>
 
             {/* Keyboard Section */}
-            <section className="keyboard">
+            <section className={clsx('keyboard', {
+                disable: wrongGuessCount === languages.length - 1
+            })}>
                 {keyboard}
             </section>
 

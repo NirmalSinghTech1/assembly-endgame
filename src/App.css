@@ -40,7 +40,7 @@ section.header {
 }
 
 .header h1 {
-  font-size: 1.125rem;
+  font-size: 1.6rem;
   color: #F9F4DA;
   font-weight: 500;
 }
@@ -69,16 +69,27 @@ section.language-chips {
 .language-chips .chip {
   padding: 0.1em 0.4em;
   border-radius: 4px;
+  position: relative;
+}
+
+.language-chips span.wrong::before {
+  position: absolute;
+  content: "💀";
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  border-radius: 4px;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 /* Word Section */
 section.word {
   max-width: 350px;
   color: #F9F4DA;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-  gap: 0.3em;
+  gap: 0.2em;
   margin: 0 auto;
 }
 
@@ -89,9 +100,6 @@ section.word > span {
   border-bottom: 1px solid #F9F4DA;
   font-size: 1.1rem;
   font-weight: 500;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 }
 
 /* Keyboard Section */
@@ -102,6 +110,12 @@ section.word > span {
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.125em;
+}
+
+section.disable {
+  opacity: 0.7;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .keyboard button {
@@ -116,6 +130,14 @@ section.word > span {
   color: #fff;
 }
 
+.keyboard button.correct {
+  background-color: #10A95B;
+}
+
+.keyboard button.incorrect {
+  background-color: #EC5D49;
+}
+
 /* New game button */
 .new-game-btn {
   padding-block: 0.6em;
@@ -126,5 +148,5 @@ section.word > span {
   margin: 0 auto;
   width: 100%;
   border: none;
-  box-shadow: 0 2px 4px 0px black;
+  box-shadow: 0 2px 2px 0px black;
 }
